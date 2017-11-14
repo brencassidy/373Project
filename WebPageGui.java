@@ -12,16 +12,10 @@ import org.places.*;
 
 public class WebPageGui extends JFrame {
 	
-	private City city; 			//This object will be serializable. (It would be world but for this project scope we
-								//are only using A city.
-	private JMenuBar menuBar;
-	private JMenu adminMenu;
+	private City city; 			
+	private DataBase currDB;
 	
 	private ArrayList<City> cityList;  //Can go back in time if we change which element.
-	
-	private JMenuItem createPage;
-	private JMenuItem listAllUsers;
-	private JMenuItem listAllActivities;
 	
 	private JButton Login;
 	private JButton Guest;
@@ -29,16 +23,16 @@ public class WebPageGui extends JFrame {
 	/*
 	 * 
 	 */
-	public WebPageGui(City city1){
+	public WebPageGui(City city1, DataBase DB){
 		super("Welcome to the Activity Review Center");
 
 		cityList = new ArrayList<City>();
 		cityList.add(city1);
 		city = city1;
-		
+		currDB = DB;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setSize(600,600);
+		setSize(500,300);
 		setLayout(null); //So that components are placed by x,y,z
 				
 		buildGUI();
@@ -50,19 +44,9 @@ public class WebPageGui extends JFrame {
 	 * 
 	 */
 	public void buildGUI(){
-		menuBar = new JMenuBar();
-		
-		adminMenu = new JMenu("Administrator");
-		
-		createPage = new JMenuItem("Create New Page");
-		listAllUsers = new JMenuItem("Show All Users");
-		listAllActivities = new JMenuItem("Show All Activities");
-		
 		JButton Guest = new JButton("Guest");
 		JButton Login = new JButton("Login");
 
-
-		
 		//Set all attributes for the TextArea
 		JTextArea HomePageText = new JTextArea();
 		HomePageText.setForeground(Color.WHITE);
@@ -90,19 +74,9 @@ public class WebPageGui extends JFrame {
 	    });
 	    
 	    
-		createPage.addActionListener(new MenuListener());
-		listAllUsers.addActionListener(new MenuListener());
-		listAllActivities.addActionListener(new MenuListener());
-				
-		adminMenu.add(createPage);
-		adminMenu.add(listAllUsers);
-		adminMenu.add(listAllActivities);
 		this.getContentPane().add(HomePageText);;
 	    this.getContentPane().add(Login);
 	    this.getContentPane().add(Guest);
-	    	
-		menuBar.add(adminMenu);
-		setJMenuBar(menuBar);
 	}
 	
 	/*
@@ -131,8 +105,8 @@ public class WebPageGui extends JFrame {
 		loginScreen.Initialize();
 		Person user = new Person();
 		//Person user = loginScreen.Initialize();
-		MainPage mainScreen = new MainPage();
-	    mainScreen.MainPageGui(city, user);
+		//MainPage mainScreen = new MainPage();
+	    //mainScreen.MainPageGui(city, user);
 	}
 	
 	/*
@@ -141,13 +115,10 @@ public class WebPageGui extends JFrame {
 	 * 
 	 */
 	private void guestLogin(){
+		dispose();
 		Person guest = new Person();
 		MainPage mainScreen = new MainPage();
-		mainScreen.MainPageGui(city, guest);
-	}
-	
-	private void mainPage(){
-		
+		mainScreen.MainPageGui(city, guest, currDB);
 	}
 	
 }

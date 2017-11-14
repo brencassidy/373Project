@@ -7,25 +7,46 @@ import org.people.*;
 
 public class DataBase {
 	
-private ArrayList<City> cities;
-private ArrayList<GenericUser> users;
-private ArrayList<ContentCreator> creators;
+	private ArrayList<City> cities;
+	private ArrayList<GenericUser> users;
+	private ArrayList<ContentCreator> creators;
+	private ArrayList<Admin> admins;
 
-public DataBase(){
+	public DataBase(){
+		
+	}
 	
-}
-
-public ArrayList<City> getCities(){
+	public void addCity(City city){
+		cities.add(city);
+	}
 	
-	return cities;
-}
-public ArrayList<GenericUser> getUsers(){
+	public void addUser(GenericUser user){
+		users.add(user);
+	}
 	
-	return users;
-}
-
-public ArrayList<ContentCreator> getCreator(){
+	public void addCreator(ContentCreator creator){
+		creators.add(creator);
+	}
 	
-	return creators;
-}
+	public void addAdmin(Admin a){
+		admins.add(a);
+	}
+	
+	public ArrayList<City> getCities(){
+		
+		return cities;
+	}
+	public ArrayList<GenericUser> getUsers(){
+		
+		return users;
+	}
+	
+	public ArrayList<ContentCreator> getCreator(){
+		
+		return creators;
+	}
+	
+	public ArrayList<Admin> getAdmins(){
+		return admins;
+	}
 }

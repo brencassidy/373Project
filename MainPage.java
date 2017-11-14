@@ -10,10 +10,13 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
+import org.places.Activities;
 import org.places.City;
 
 
+import org.places.DataBase;
 import org.people.*;
 import org.places.*;
 /*
@@ -24,26 +27,33 @@ import org.places.*;
  * 
  */
 public class MainPage extends JFrame {
-	private City city; 			//This object will be serializable. (It would be world but for this project scope we
-	//are only using A city.
+	private City city; 			
+	private Person currUser;
+	private DataBase DB;
+	
 	private JMenuBar menuBar;
 	private JMenu adminMenu;
+	private JMenu contentCreatorMenu;
 	
 	private ArrayList<City> cityList;  //Can go back in time if we change which element.
 	
 	private JMenuItem createPage;
 	private JMenuItem listAllUsers;
 	private JMenuItem listAllActivities;
+	private JMenuItem editPageContent;
+	
 	private JMenuItem logout;
 	private JComboBox selectCity;
 	
-	public void MainPageGui(City city1, Person user) {
+	public void MainPageGui(City city1, Person user, DataBase DB2) {
 		
 		this.setTitle("Welcome to the Activity Review Center");
 		
 		cityList = new ArrayList<City>();
 		cityList.add(city1);
 		city = city1;
+		currUser = user;
+		DB = DB2;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,11 +69,13 @@ public class MainPage extends JFrame {
 		menuBar = new JMenuBar();
 		
 		adminMenu = new JMenu("Administrator");
+		contentCreatorMenu = new JMenu("ContentCreator");
 		
 		logout = new JMenuItem("Logout");
 		createPage = new JMenuItem("Create New Page");
 		listAllUsers = new JMenuItem("Show All Users");
 		listAllActivities = new JMenuItem("Show All Activities");
+		editPageContent = new JMenuItem("Edit Page");
 		
 		@SuppressWarnings("rawtypes")
 		JComboBox selectCity = new JComboBox();
@@ -72,18 +84,22 @@ public class MainPage extends JFrame {
 				"San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "San Francisco", "Colombus",
 				"Indianapolis", "Fort Worth", "Charolotte", "Tucson"}));
 		selectCity.setBounds(150, 10, 250, 40);
-		this.getContentPane().add(slectCity);
+		this.getContentPane().add(selectCity);
 		
 		selectCity.addActionListener(new MenuListener1());
 		createPage.addActionListener(new MenuListener1());
 		listAllUsers.addActionListener(new MenuListener1());
 		listAllActivities.addActionListener(new MenuListener1());
+		editPageContent.addActionListener(new MenuListener1());
+		logout.addActionListener(new MenuListener1());
 		adminMenu.add(createPage);
 		adminMenu.add(listAllUsers);
 		adminMenu.add(listAllActivities);
+		contentCreatorMenu.add(editPageContent);
 		
 		menuBar.add(logout);
 		menuBar.add(adminMenu);
+		menuBar.add(contentCreatorMenu);
 		setJMenuBar(menuBar);
 	}
 	
@@ -104,36 +120,87 @@ public class MainPage extends JFrame {
 				listAllActivities();
 			}
 			else if(source.equals(selectCity)){
-				
+				cityFlyout();
 			}
 			else if(source.equals(logout)){
+				logout();
+			}
+			else if(source.equals(editPageContent)){
 				
 			}
 		}
 	}
 	
 	/*
-	 * createPage: Will allow an admin to click on the 
-	 * 
+	 * createPage: Will allow an admin to click on the tab to createPage
+	 * 			and from there will be able to enter the Title, and category it will fall under
+	 * 			as well as the ContentCreator of the page.
 	 */
 	private void createPage(){
-		
+		//Only admins have this ability thus check status
+		if(currUser.getClass() != Admin.class){
+			JOptionPane.showMessageDialog(null, 
+					"User Status Error", 
+					"Cannot Create Page!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			Activities newAct = new Activities();
+			//Ask admin to enter the info
+			
+			city.addActivity(newAct);
+		}
 	}
 	
 	/*
-	 * 
-	 * 
+	 * listAllUsers: Admins are able to print out a list of all the
+	 * 		current users in the page.
 	 */
 	private void listAllUsers(){
+		if(currUser.getClass() != Admin.class){
+			JOptionPane.showMessageDialog(null, 
+					"User Status Error", 
+					"Only Admins can access User Info!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+		
+		}
+	}
+	
+	/*
+	 * listAllActivities(): this allows the admin to keep track
+	 * 		of all activities by simply showing them all.
+	 */
+	private void listAllActivities(){
+		if(currUser.getClass() != Admin.class){
+			JOptionPane.showMessageDialog(null, 
+					"User Status Error", 
+					"Only Admins can access Activity Lists!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			
+		}
+	}
+	
+	/*
+	 * cityFlyout: Once the user selects a city we will open the activities
+	 * 		for that city.
+	 */
+	private void cityFlyout(){
 		
 	}
 	
 	/*
-	 * 
+	 * logout: If a user clicks this panel we will reopen the original panel to 
+	 * 	allow a new user to select input.
 	 * 
 	 */
-	private void listAllActivities(){
-		
+	private void logout(){
+		dispose();
+		WebPageGui wpg = new WebPageGui(city, DB);
 	}
+
 	
 }
