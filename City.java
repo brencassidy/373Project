@@ -12,15 +12,15 @@ import org.places.Activities;
  * 
  */
 public class City {
-	private ArrayList<Person> population;
-	private ArrayList<Activities> activities;
+	private ArrayList<Person> population = new ArrayList<Person>();
+	private ArrayList<Activities> activities = new ArrayList<Activities>();
 	private String cityName;
 	
 	public City(){
 		setCityName("unnamedCity");
 	}
 	
-	City(String _cityName){
+	public City(String _cityName){
 		setCityName(_cityName);
 	}
 	
@@ -37,8 +37,52 @@ public class City {
 	 * 		String : _password -> will be Persons password attribute assuming it is valid.
 	 * 
 	 */
+	
+	public void addingNewUser(Person p1)
+	{
+		ArrayList<Person> popList = this.population;
+		boolean goodUser = true;
+		try {
+			for(Person p: popList)
+			{
+				if(p.getEmail().equals(p1.getEmail()))
+				{
+					System.out.println("Bad user");
+					goodUser = false;
+				}
+			}
+		}catch(Exception e)
+		{
+			
+		}
+		if(goodUser == true)
+		{
+			System.out.println("Good user, adding to population");
+			population.add(p1);
+		}
+			
+	}
 	public void addingNewUser(String _name, String _eMail, String _password){
 		
+		ArrayList<Person> popList = this.population;
+		boolean goodUser = true;
+		
+		for(Person p: popList)
+		{
+			if(p.getEmail().equals(_eMail))
+			{
+				goodUser = false;
+			}
+		}
+		
+		if(goodUser == true)
+		{
+			Person p1 = new Person();
+			p1.setEmail(_eMail);
+			p1.setName(_name);
+			p1.setPassword(_password);
+			this.population.add(p1);
+		}
 	}
 	
 	
@@ -51,6 +95,15 @@ public class City {
 	 * 			the specified page or an error if it does not exist
 	 */
 	public Activities searchForActivity(String activityName){
+		ArrayList<Activities> actList = this.activities;
+		
+		for(Activities a1: actList)
+		{
+			if(a1.getActivityName().equals(activityName))
+			{
+				return a1;
+			}
+		}
 		return null;
 	}
 
@@ -68,6 +121,11 @@ public class City {
 
 	public void setActivities(ArrayList<Activities> activities) {
 		this.activities = activities;
+	}
+	
+	public void addActivities(Activities activity)
+	{
+		this.activities.add(activity);
 	}
 
 	public String getCityName() {

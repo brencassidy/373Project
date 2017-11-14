@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.people.Person;
 
 /*
- * Author: Brendan Cassidy
+ * Author: Brendan Cassidy/Daniel Peters
  * Description:
  * 	Class Activities will hold info regarding each specified activity, including but not 
  * 		limited to contentCreator, name, address, rating, comment list displayed on the GUI page.
@@ -18,12 +18,16 @@ public class Activities {
 	private String activityName;
 	private String activityDescription;
 	private String activityAddress;
-	private Double overallRating;
-	private Double foodRating;
-	private Double priceRating;
+	private String type;
+	private ArrayList<Double> overallRating = new ArrayList<Double>();
+	private ArrayList<Double> foodRating = new ArrayList<Double>();
+	private ArrayList<Double> priceRating = new ArrayList<Double>();
+	private double newOverallRating;
+	private double newFoodRating;
+	private double newPriceRating;
 	
 	/*
-	 * Contstructor Usage:
+	 * Constructor Usage:
 	 * 		Generally the overloaded constructor should be called by an admin that creates
 	 * 		a new page.  In doing so he will create a new ContentCreator with generic credentials.
 	 * 		The contentCreator should then change these credentials (implied that the admin will 
@@ -35,15 +39,20 @@ public class Activities {
 		activityName 	= "notRealActivity";
 		activityAddress = "12345 2nd Ave";
 		activityDescription = "null";
+		type = "NotAType";
 	}
+	
 	
 	public Activities(String _activityName, String _activityAddress, Person _contentCreator){
 		activityName 	= _activityName;
 		activityAddress =_activityAddress;
 		setContentOwner(_contentCreator);
-		overallRating 	= (double) -1;
-		foodRating 		= (double) -1;
-		priceRating 	= (double) -1;
+		newOverallRating = (double) -1;
+		newFoodRating = (double) -1;
+		newPriceRating = (double) -1;
+//		overallRating 	= (Double) -1;
+//		foodRating 		= (Double) -1;
+//		priceRating 	= (Double) -1;
 	}
 	
 	
@@ -57,7 +66,33 @@ public class Activities {
 	 * 		newFoodRating	 : new FoodRating score to add
 	 * 		newPriceRating   : new PriceRating score to add
 	 */
-	public void calcNewRating(Double newOverallRating, Double newFoodRating, Double newPriceRating){
+	public void calcNewRating(double newOverallRating, double newFoodRating, double newPriceRating){
+		overallRating.add(newOverallRating);
+		foodRating.add(newFoodRating);
+		priceRating.add(newPriceRating);
+		
+		double overallRate = 0;
+		double foodRate = 0;
+		double priceRate = 0;
+		
+		for(double d: overallRating)
+		{
+			overallRate += d;
+		}
+		
+		for(double d: foodRating)
+		{
+			foodRate += d;
+		}
+		
+		for(double d: priceRating)
+		{
+			priceRate += d;
+		}
+		
+		this.newOverallRating = (double) (overallRate/overallRating.size());
+		this.newFoodRating = (double) (foodRate/foodRating.size());
+		this.newPriceRating = (double) (priceRate/priceRating.size());
 		
 	}
 	
@@ -78,16 +113,16 @@ public class Activities {
 		return activityAddress;
 	}
 	
-	public Double getOverallRating(){
-		return overallRating;
+	public double getOverallRating(){
+		return newOverallRating;
 	}
 	
-	public Double getFoodRating(){
-		return foodRating;
+	public double getFoodRating(){
+		return newFoodRating;
 	}
 	
-	public Double getPriceRating(){
-		return priceRating;
+	public double getPriceRating(){
+		return newPriceRating;
 	}
 
 	public Person getContentOwner() {
@@ -113,19 +148,31 @@ public class Activities {
 	public void setActivityDescription(String activityDescription) {
 		this.activityDescription = activityDescription;
 	}
-
-	public void addOverallRating(Double o1) {
-		// TODO Auto-generated method stub
-		
+	
+	public void setType(String type)
+	{
+		this.type = type;
 	}
-
-	public void addFoodRating(Double f1) {
-		// TODO Auto-generated method stub
-		
+	
+	public String getType()
+	{
+		return this.type;
 	}
-
-	public void addPriceRating(Double p1) {
-		// TODO Auto-generated method stub
-		
+	
+	public ArrayList<Double> getOverallList()
+	{
+		return this.overallRating;
 	}
+	
+	public ArrayList<Double> getFoodList()
+	{
+		return this.foodRating;
+	}
+	
+	public ArrayList<Double> getPriceList()
+	{
+		return this.priceRating;
+	}
+	
+
 }
