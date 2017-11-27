@@ -147,7 +147,6 @@ public class MainPage extends JFrame {
 		else{
 			Activities newAct = new Activities();
 			//Ask admin to enter the info
-			
 			city.addActivity(newAct);
 		}
 	}
@@ -164,7 +163,8 @@ public class MainPage extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else{
-		
+			//Call function to return the printed list
+			String fullString = DB.printUsers();
 		}
 	}
 	
@@ -180,7 +180,7 @@ public class MainPage extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else{
-			
+			String fullString = DB.printActivities();
 		}
 	}
 	

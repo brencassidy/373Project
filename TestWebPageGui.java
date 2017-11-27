@@ -5,6 +5,7 @@ import org.people.ContentCreator;
 import org.people.GenericUser;
 import org.places.Activities;
 import org.places.City;
+import org.places.DataBase;
 
 public class TestWebPageGui {
 
@@ -14,27 +15,29 @@ public class TestWebPageGui {
 
 		WebPageGui newGUI;
 		
+		DataBase newDataBase = new DataBase();
+		
 		Activities a1 = new Activities();
 		Activities a2 = new Activities();
 		
 		Admin admin1 = new Admin();
 		
-		ContentCreator c1 = new ContentCreator();
-		ContentCreator c2 = new ContentCreator();
-		
 		GenericUser g1 = new GenericUser();
+		GenericUser g2 = new GenericUser();
+		
+		ContentCreator c1 = new ContentCreator();
 		
 		/*admin1.setName("Todd");
 		admin1.setEmail("admin@admin.com");
 		admin1.setPassword("P4ssw0rd");
 		
-		c1.setName("Bob");
-		c1.setEmail("bob.test@gmail.com");
-		c1.setPassword("P4ssw0rd");
+		g1.setName("Bob");
+		g1.setEmail("bob.test@gmail.com");
+		g1.setPassword("P4ssw0rd");
 		
-		c2.setName("Jeff");
-		c2.setEmail("jeff.test@yahoo.com");
-		c2.setPassword("P4ssw0rd");
+		g2.setName("Jeff");
+		g2.setEmail("jeff.test@yahoo.com");
+		g2.setPassword("P4ssw0rd");
 		
 		a1.setActivityName("NAMLS Tier 1 Soccer");
 		a2.setActivityName("Hamilton Play");
@@ -43,11 +46,17 @@ public class TestWebPageGui {
 		a2.setActivityAddress("44444 First Ave");
 		
 		a1.setContentOwner(c1);
-		a2.setContentOwner(c2);
 		
+		newDataBase.addCity(city1);
+		
+		newDataBase.addUser(g1);
+		newDataBase.addUser(g2);
+		
+		newDataBase.addCreator(c1);
+		
+		newDataBase.addAdmin(admin1);
 		*/
-		
-		newGUI = new WebPageGui(city1);
+		newGUI = new WebPageGui(city1, newDataBase);
 
 	}
 }

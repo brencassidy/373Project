@@ -49,4 +49,23 @@ public class DataBase {
 	public ArrayList<Admin> getAdmins(){
 		return admins;
 	}
+	
+	//Return a list to be added to a text window for all active users
+	public String printUsers(){
+		String listUsers = null;
+		for(GenericUser g : users){
+			listUsers += g.getName() + " \n";
+		}
+		return listUsers;
+	}
+	
+	public String printActivities(){
+		String listActivities = null;
+		for(City c : cities){
+			for(Activities a : c.getActivities()){
+				listActivities += a.getActivityName() + " \n";
+			}
+		}
+		return listActivities;
+	}
 }

@@ -107,6 +107,9 @@ public class City {
 		return null;
 	}
 
+	public void addActivity(Activities a1){
+		activities.add(a1);
+	}
 	public ArrayList<Person> getPopulation() {
 		return population;
 	}

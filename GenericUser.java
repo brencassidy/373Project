@@ -30,8 +30,8 @@ public class GenericUser extends Person{
 	 * 		Will add to the current ratings of the Activities
 	 */
 	public void addRating(Double newOverallRating, Double newFoodRating, Double newPriceRating, Activities thisActivity){		
-	thisActivity.addOverallRating(newOverallRating);
-	thisActivity.addFoodRating(newFoodRating);
-	thisActivity.addPriceRating(newPriceRating);
+		thisActivity.addOverallRating(newOverallRating);
+		thisActivity.addFoodRating(newFoodRating);
+		thisActivity.addPriceRating(newPriceRating);
 	}
 }

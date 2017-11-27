@@ -173,6 +173,19 @@ public class Activities {
 	{
 		return this.priceRating;
 	}
+
+
+	public void addFoodRating(Double newFoodRating) {
+		foodRating.add(newFoodRating);
+	}
+	
+	public void addPriceRating(Double newPriceRating){
+		priceRating.add(newPriceRating);
+	}
+	
+	public void addOverallRating(Double newOverall){
+		overallRating.add(newOverall);
+	}
 	
 
 }
