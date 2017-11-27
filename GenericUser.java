@@ -3,7 +3,7 @@ package org.people;
 import org.places.Activities;
 
 /*
- * Author: Brendan Cassidy
+ * Author: Khas-Ochir Sod-Erdene
  * Description:
  * 		This class will allow the generic user to write a review, leave a comment. 
  */
@@ -33,5 +33,6 @@ public class GenericUser extends Person{
 		thisActivity.addOverallRating(newOverallRating);
 		thisActivity.addFoodRating(newFoodRating);
 		thisActivity.addPriceRating(newPriceRating);
+		thisActivity.calcNewRating(newOverallRating, newFoodRating, newPriceRating);
 	}
 }

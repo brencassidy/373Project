@@ -11,9 +11,12 @@ public class DataBase {
 	private ArrayList<GenericUser> users;
 	private ArrayList<ContentCreator> creators;
 	private ArrayList<Admin> admins;
-
+//constractor
 	public DataBase(){
-		
+		cities=new ArrayList<City>();
+		users= new ArrayList<GenericUser>();
+		 creators=new ArrayList<ContentCreator>();
+		 admins= new ArrayList<Admin>();
 	}
 	
 	public void addCity(City city){
@@ -49,6 +52,36 @@ public class DataBase {
 	public ArrayList<Admin> getAdmins(){
 		return admins;
 	}
+
+	public void printCities() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<cities.size();i++){
+			System.out.println(cities.get(i).getCityName());
+		}
+	}
+
+	public void printUsers() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<users.size();i++){
+			System.out.println(users.get(i).getName());
+		}
+	}
+
+	public void printCreators() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<creators.size();i++){
+			System.out.println(creators.get(i).getName());
+		}
+	}
+
+	public void printAdmins() {
+		// TODO Auto-generated method stub
+		for(int i=0;i<admins.size();i++){
+			System.out.println(admins.get(i).getName());
+		}
+	}
+	
+}
 	
 	//Return a list to be added to a text window for all active users
 	public String printUsers(){
