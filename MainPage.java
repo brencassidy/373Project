@@ -1,11 +1,13 @@
 package FrontEnd_GUI;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -46,7 +48,7 @@ public class MainPage extends JFrame {
 	
 	private JMenuItem logout;
 	private JComboBox selectCity;
-	private JTextArea txtrActivity;
+	private JTextArea txtActivity;
 
 	
 	public void MainPageGui(Person user, DataBase DB2) {
@@ -132,7 +134,6 @@ public class MainPage extends JFrame {
 	 */
 	private class MenuListener1 implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-			System.out.println("HERE");
 			JMenuItem source = (JMenuItem)(e.getSource());
 			if(source.equals(createPage)){
 				createPage();
@@ -189,6 +190,7 @@ public class MainPage extends JFrame {
 		else{
 			//Call function to return the printed list
 			String fullString = DB.printUsers();
+			System.out.println(fullString);
 		}
 	}
 	
@@ -205,7 +207,6 @@ public class MainPage extends JFrame {
 		}
 		else{
 			String fullString = DB.printActivities();
-			selectCity.setVisible(false);
 			System.out.println(fullString);
 		}
 	}
@@ -255,11 +256,26 @@ public class MainPage extends JFrame {
 					"No City info was found!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		txtrActivity = new JTextArea();
-		txtrActivity.setBackground(Color.LIGHT_GRAY);
-		txtrActivity.setText("Activity: ");
-		txtrActivity.setBounds(276, -1, 84, 23);
-		this.getContentPane().add(txtrActivity);
+		//If its not null we need to post all the activites from that city
+		else {
+			//String fullString ="\tActivities: \n";
+			Integer x = 0;
+			JTextArea txtActivity = new JTextArea();
+			txtActivity.setBackground(Color.LIGHT_GRAY);
+			txtActivity.setLineWrap(true);
+			txtActivity.setWrapStyleWord(true);
+			txtActivity.setText("Activities in " + c1.getCityName() + ":");
+			txtActivity.setBounds(175, 10, 300, 25);
+			txtActivity.setFont(new Font("Monospaced", Font.BOLD, 16));
+			this.getContentPane().add(txtActivity);
+			for(Activities a : c1.getActivities()){
+				System.out.println(a.getActivityName());
+				JButton btnActivityName = new JButton(a.getActivityName());
+				btnActivityName.setBounds(160, 100+x, 250, 23);
+				x+=23;			//To change the Spacing down
+				this.getContentPane().add(btnActivityName);
+			}
+		}
 		
 	}
 
