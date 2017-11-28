@@ -256,10 +256,11 @@ public class MainPage extends JFrame {
 					"No City info was found!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		//If its not null we need to post all the activites from that city
+		/*If city exists we will list every possible activity for the City as a button.
+		* If a user then clicks on the button we will pull up the final Page with the information of that activity.
+		*/
 		else {
-			//String fullString ="\tActivities: \n";
-			Integer x = 0;
+			Integer x = 0;			
 			JTextArea txtActivity = new JTextArea();
 			txtActivity.setBackground(Color.LIGHT_GRAY);
 			txtActivity.setLineWrap(true);
@@ -268,10 +269,17 @@ public class MainPage extends JFrame {
 			txtActivity.setBounds(175, 10, 300, 25);
 			txtActivity.setFont(new Font("Monospaced", Font.BOLD, 16));
 			this.getContentPane().add(txtActivity);
+			
+			//Loop through and post the activities
 			for(Activities a : c1.getActivities()){
-				System.out.println(a.getActivityName());
 				JButton btnActivityName = new JButton(a.getActivityName());
 				btnActivityName.setBounds(160, 100+x, 250, 23);
+				btnActivityName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						ActivityGUIPage agp = new ActivityGUIPage();
+						agp.ActivityGUIPageOpen(a);
+					}
+				});
 				x+=23;			//To change the Spacing down
 				this.getContentPane().add(btnActivityName);
 			}

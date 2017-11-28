@@ -26,50 +26,43 @@ public class TestWebPageGui {
 		GenericUser g2 = new GenericUser();
 		
 		ContentCreator c1 = new ContentCreator();
-		System.out.println("1");
 		admin1.setName("Todd");
 		admin1.setEmail("admin@admin.com");
 		admin1.setPassword("P4ssw0rd");		//Need to check the CheckPassword implementation.
-		System.out.println("2");
 
 		g1.setName("Bob");
 		g1.setEmail("bob.test@gmail.com");
 		g1.setPassword("P4ssw0rd");
-		System.out.println("3");
 
 		g2.setName("Jeff");
 		g2.setEmail("jeff.test@yahoo.com");
 		g2.setPassword("P4ssw0rd");
-		System.out.println("4");
 
-		a1.setActivityName("NAMLS Tier 1 Soccer");
-		a2.setActivityName("Hamilton Play");
-		System.out.println("5");
+		a1.setActivityName("Arizona Wildcat Basketball");
+		a2.setActivityName("University of Arizona Dance");
 
-		a1.setActivityAddress("12345 Smith Ave");
+		a1.setActivityAddress("1721 E Enke Dr, Tucson, AZ 85721");
 		a2.setActivityAddress("44444 First Ave");
-		System.out.println("6");
+		
+		a1.setActivityDescription("The University of Arizona basketball team competes yearly for PAC-12 Championships.  One of the largest attractions"
+				+ " for the city of Tucson getting a ticket is no small feat but well worth it.");
+		a2.setActivityDescription("One of the most prestigious Dance crews on the West Coast, they students put on weekly shows as a small way to give"
+				+ " back to such a wonderful town.");
 
 		a1.setContentOwner(c1);
-		System.out.println("7");
 
 		city1.setCityName("Tucson");
 		city1.addActivity(a1);
 		city1.addActivity(a2);
-		System.out.println("8");
 
 		newDataBase.addCity(city1);
-		System.out.println("9");
 
 		newDataBase.addUser(g1);
 		newDataBase.addUser(g2);
-		System.out.println("10");
 
 		newDataBase.addCreator(c1);
-		System.out.println("11");
 
 		newDataBase.addAdmin(admin1);
-		System.out.println("12");
 
 		
 		newGUI = new WebPageGui(newDataBase);
