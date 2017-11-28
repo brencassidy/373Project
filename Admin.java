@@ -101,7 +101,7 @@ public class Admin extends Person{
 	 * 		String tobedeleted and the List/Activity that the comment resides
 	 * 
 	 */
-	public void deleteComment(String oldComment, Activities aActivity){
+	public void deleteComment(String oldComment, Activities aActivity){  //delete teh commnet by the old comment
 		aActivity.getCommentList().remove(oldComment);
 	}
 }

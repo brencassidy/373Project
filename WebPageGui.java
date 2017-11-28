@@ -12,10 +12,10 @@ import org.places.*;
 
 public class WebPageGui extends JFrame {
 	
-	private City city; 			
+	//private City city; 			
 	private DataBase currDB;
 	
-	private ArrayList<City> cityList;  //Can go back in time if we change which element.
+	//private ArrayList<City> cityList;  //Can go back in time if we change which element.
 	
 	private JButton Login;
 	private JButton Guest;
@@ -23,12 +23,12 @@ public class WebPageGui extends JFrame {
 	/*
 	 * 
 	 */
-	public WebPageGui(City city1, DataBase DB){
+	public WebPageGui(DataBase DB){
 		super("Welcome to the Activity Review Center");
 
-		cityList = new ArrayList<City>();
-		cityList.add(city1);
-		city = city1;
+		//cityList = new ArrayList<City>();
+		//cityList.add(city1);
+		//city = city1;
 		currDB = DB;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -101,8 +101,9 @@ public class WebPageGui extends JFrame {
 	 * 
 	 */
 	private void loginMenu(){
+		dispose();
 		LoginGUI loginScreen = new LoginGUI();
-		loginScreen.Initialize();
+		loginScreen.Initialize(currDB);
 		Person user = new Person();
 		//Person user = loginScreen.Initialize();
 		//MainPage mainScreen = new MainPage();
@@ -118,7 +119,7 @@ public class WebPageGui extends JFrame {
 		dispose();
 		Person guest = new Person();
 		MainPage mainScreen = new MainPage();
-		mainScreen.MainPageGui(city, guest, currDB);
+		mainScreen.MainPageGui(guest, currDB);
 	}
 	
 }

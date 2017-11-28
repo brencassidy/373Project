@@ -1,16 +1,20 @@
 package FrontEnd_GUI;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import org.places.Activities;
 import org.places.City;
@@ -35,7 +39,7 @@ public class MainPage extends JFrame {
 	private JMenu adminMenu;
 	private JMenu contentCreatorMenu;
 	
-	private ArrayList<City> cityList;  //Can go back in time if we change which element.
+	//private ArrayList<City> cityList;  //Can go back in time if we change which element.
 	
 	private JMenuItem createPage;
 	private JMenuItem listAllUsers;
@@ -44,14 +48,16 @@ public class MainPage extends JFrame {
 	
 	private JMenuItem logout;
 	private JComboBox selectCity;
+	private JTextArea txtActivity;
+
 	
-	public void MainPageGui(City city1, Person user, DataBase DB2) {
+	public void MainPageGui(Person user, DataBase DB2) {
 		
 		this.setTitle("Welcome to the Activity Review Center");
 		
-		cityList = new ArrayList<City>();
-		cityList.add(city1);
-		city = city1;
+		//cityList = new ArrayList<City>();
+		//cityList.add(city1);
+		//city = city1;
 		currUser = user;
 		DB = DB2;
 		
@@ -77,16 +83,15 @@ public class MainPage extends JFrame {
 		listAllActivities = new JMenuItem("Show All Activities");
 		editPageContent = new JMenuItem("Edit Page");
 		
-		@SuppressWarnings("rawtypes")
+		//@SuppressWarnings("rawtypes")
 		JComboBox selectCity = new JComboBox();
-		selectCity.setModel(new DefaultComboBoxModel(new String[] {"Select a City...", 
-				"New York",	"Los Angeles", "Chicago", "Houston", "Pheonix", "Philadelphia", "San Antonio",
-				"San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "San Francisco", "Colombus",
-				"Indianapolis", "Fort Worth", "Charolotte", "Tucson"}));
+		selectCity.addItem("Tucson");
+		selectCity.addItem("Los Angeles");
+		selectCity.addItem("San Diego");
+		selectCity.addItem("New York");
 		selectCity.setBounds(150, 10, 250, 40);
-		this.getContentPane().add(selectCity);
+		selectCity.addActionListener(new Action());
 		
-		selectCity.addActionListener(new MenuListener1());
 		createPage.addActionListener(new MenuListener1());
 		listAllUsers.addActionListener(new MenuListener1());
 		listAllActivities.addActionListener(new MenuListener1());
@@ -97,12 +102,25 @@ public class MainPage extends JFrame {
 		adminMenu.add(listAllActivities);
 		contentCreatorMenu.add(editPageContent);
 		
+		menuBar.add(selectCity);
 		menuBar.add(logout);
 		menuBar.add(adminMenu);
 		menuBar.add(contentCreatorMenu);
 		setJMenuBar(menuBar);
 	}
 	
+	/*
+	 * Specified action Listener to the JComboBox.  This allows us to begin posting the info for 
+	 * different pages available.
+	 */
+	private class Action implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			JComboBox combo = (JComboBox)e.getSource();
+			String currentQ = (String)combo.getSelectedItem();
+			//Call the function to populate the file with activities from that page
+			populatePageWithCity(currentQ);
+		}
+	}
 	/*
 	 * 
 	 * 
@@ -119,14 +137,14 @@ public class MainPage extends JFrame {
 			else if(source.equals(listAllActivities)){
 				listAllActivities();
 			}
-			else if(source.equals(selectCity)){
+			else if(e.getSource() == selectCity){
 				cityFlyout();
 			}
 			else if(source.equals(logout)){
 				logout();
 			}
 			else if(source.equals(editPageContent)){
-				
+				editPage();
 			}
 		}
 	}
@@ -165,6 +183,7 @@ public class MainPage extends JFrame {
 		else{
 			//Call function to return the printed list
 			String fullString = DB.printUsers();
+			System.out.println(fullString);
 		}
 	}
 	
@@ -181,6 +200,7 @@ public class MainPage extends JFrame {
 		}
 		else{
 			String fullString = DB.printActivities();
+			System.out.println(fullString);
 		}
 	}
 	
@@ -189,7 +209,7 @@ public class MainPage extends JFrame {
 	 * 		for that city.
 	 */
 	private void cityFlyout(){
-		
+		System.out.println("TESTING");
 	}
 	
 	/*
@@ -199,7 +219,66 @@ public class MainPage extends JFrame {
 	 */
 	private void logout(){
 		dispose();
-		WebPageGui wpg = new WebPageGui(city, DB);
+		WebPageGui wpg = new WebPageGui(DB);
+	}
+	
+	
+	/*
+	 * This page is only applicable for the Content Creator Class
+	 * 	all other users will recieve an error.
+	 */
+	private void editPage(){
+		if(currUser.getClass() != ContentCreator.class){
+			JOptionPane.showMessageDialog(null, 
+				"User Status Error", 
+				"Only Admins can access User Info!",
+				JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			
+		}
+	}
+	
+	private void populatePageWithCity(String cityName){
+		//Find the city Obj
+		City c1 = DB.findCityObj(cityName);
+		System.out.println("PopulatePage");
+		if(c1 == null){
+			JOptionPane.showMessageDialog(null, 
+					"City Error", 
+					"No City info was found!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		/*If city exists we will list every possible activity for the City as a button.
+		* If a user then clicks on the button we will pull up the final Page with the information of that activity.
+		*/
+		else {
+			Integer x = 0;			
+			JTextArea txtActivity = new JTextArea();
+			txtActivity.setBackground(Color.LIGHT_GRAY);
+			txtActivity.setLineWrap(true);
+			txtActivity.setWrapStyleWord(true);
+			txtActivity.setText("Activities in " + c1.getCityName() + ":");
+			txtActivity.setBounds(175, 10, 300, 25);
+			txtActivity.setFont(new Font("Monospaced", Font.BOLD, 16));
+			this.getContentPane().add(txtActivity);
+			
+			//Loop through and post the activities
+			for(Activities a : c1.getActivities()){
+				JButton btnActivityName = new JButton(a.getActivityName());
+				btnActivityName.setBounds(160, 100+x, 250, 23);
+				btnActivityName.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						dispose();
+						ActivityGUIPage agp = new ActivityGUIPage();
+						agp.ActivityGUIPageOpen(a, currUser, DB);
+					}
+				});
+				x+=23;			//To change the Spacing down
+				this.getContentPane().add(btnActivityName);
+			}
+		}
+		
 	}
 
 	

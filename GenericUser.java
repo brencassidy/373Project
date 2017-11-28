@@ -33,6 +33,6 @@ public class GenericUser extends Person{
 		thisActivity.addOverallRating(newOverallRating);
 		thisActivity.addFoodRating(newFoodRating);
 		thisActivity.addPriceRating(newPriceRating);
-		thisActivity.calcNewRating(newOverallRating, newFoodRating, newPriceRating);
+		thisActivity.calcNewRating(newOverallRating, newFoodRating, newPriceRating); //calculate the ratings everytime new rating added
 	}
 }

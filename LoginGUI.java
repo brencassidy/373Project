@@ -15,12 +15,13 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import org.people.Person;
+import org.places.DataBase;
 
 public class LoginGUI extends JFrame{
 		private JFrame frame;
 		private JTextField UsernameText;
 		private JPasswordField PasswordText;
-		
+		private DataBase currDB;
 		private JButton buttonLogin;
 		private JButton buttonReset;
 		private JButton buttonForgotPassword;
@@ -33,8 +34,9 @@ public class LoginGUI extends JFrame{
 		 * 		Use JFrame, JLabel, JButton we are able to add specified areas to the screen,
 		 * 		mostly by trial and error cordinates at first..
 		 */
-		public void Initialize() {
-		
+		public void Initialize(DataBase db) {
+			currDB = db;
+			
 			frame = new JFrame();
 			frame.setBounds(100, 100, 400, 300);
 			frame.setBackground(Color.ORANGE);
@@ -133,20 +135,39 @@ public class LoginGUI extends JFrame{
 	private void LoginPage() {
 		String password = PasswordText.getText();
 		String username = UsernameText.getText();
-		//Person person = null;
-		//WE SHOULD CALL THE CHECK PASSWORD
-		if(password.length() > 10 && username.length() > 2){
-			PasswordText.setText(null);
-			UsernameText.setText(null);
-			//return person;
+		Boolean found = false;
+
+		//Check that the user exists. We will open the next page
+		for(Person p : currDB.getUsers()){
+			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
+				dispose();
+				found = true; 
+				MainPage mainScreen = new MainPage();
+				mainScreen.MainPageGui(p, currDB);
+			}
 		}
-		else{
+		for(Person p : currDB.getCreator()){
+			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
+				dispose();
+				found = true; 
+				MainPage mainScreen = new MainPage();
+				mainScreen.MainPageGui(p, currDB);
+			}
+		}
+		for(Person p : currDB.getAdmins()){
+			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
+				dispose();
+				found = true;
+				MainPage mainScreen = new MainPage();
+				mainScreen.MainPageGui(p, currDB);
+			}
+		}
+		if(found == false){
 			JOptionPane.showMessageDialog(null, 
-					"Invalid Login Details", 
+					"Invalid Password/Username", 
 					"Login Failed!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		//return null;
 	}
 	
 	private void Reset() {
