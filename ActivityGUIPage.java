@@ -83,7 +83,8 @@ public class ActivityGUIPage extends JFrame{
 		
 		FoodRating.setBackground(Color.GRAY);
 		FoodRating.setForeground(Color.WHITE);
-		FoodRating.setText("Overall Rating:\r\nFood Rating:\r\nPrice Rating:");
+		FoodRating.setText("Overall Rating:\r " + currA.getOverallRating() +  "\nFood Rating:\r " + currA.getFoodRating()
+					+ "\nPrice Rating: " + currA.getPriceRating());
 		FoodRating.setBounds(0, 22, 226, 69);
 		
 		ActivityText.setFont(new Font("Monospaced", Font.BOLD, 16));

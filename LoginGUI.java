@@ -136,28 +136,28 @@ public class LoginGUI extends JFrame{
 		String password = PasswordText.getText();
 		String username = UsernameText.getText();
 		Boolean found = false;
-		//Person person = null;
-		//WE SHOULD CALL THE CHECK PASSWORD
-		System.out.println(password);
-		System.out.println(username);
+
 		//Check that the user exists. We will open the next page
 		for(Person p : currDB.getUsers()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true; dispose();
+				dispose();
+				found = true; 
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}
 		}
 		for(Person p : currDB.getCreator()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true; dispose();
+				dispose();
+				found = true; 
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}
 		}
 		for(Person p : currDB.getAdmins()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true; dispose();
+				dispose();
+				found = true;
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}
@@ -168,7 +168,6 @@ public class LoginGUI extends JFrame{
 					"Login Failed!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		//return null;
 	}
 	
 	private void Reset() {
