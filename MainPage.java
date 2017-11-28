@@ -89,14 +89,7 @@ public class MainPage extends JFrame {
 		selectCity.addItem("Los Angeles");
 		selectCity.addItem("San Diego");
 		selectCity.addItem("New York");
-		//selectCity.setModel(new DefaultComboBoxModel(new String[] {"Select a City...", 
-		//		"New York",	"Los Angeles", "Chicago", "Houston", "Pheonix", "Philadelphia", "San Antonio",
-		//		"San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "San Francisco", "Colombus",
-		//		"Indianapolis", "Fort Worth", "Charolotte", "Tucson"}));
 		selectCity.setBounds(150, 10, 250, 40);
-		//this.getContentPane().add(selectCity);
-
-		//selectCity.addActionListener(new Action());
 		selectCity.addActionListener(new Action());
 		
 		createPage.addActionListener(new MenuListener1());
@@ -276,8 +269,9 @@ public class MainPage extends JFrame {
 				btnActivityName.setBounds(160, 100+x, 250, 23);
 				btnActivityName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
+						dispose();
 						ActivityGUIPage agp = new ActivityGUIPage();
-						agp.ActivityGUIPageOpen(a);
+						agp.ActivityGUIPageOpen(a, currUser, DB);
 					}
 				});
 				x+=23;			//To change the Spacing down

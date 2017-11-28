@@ -40,6 +40,7 @@ public class Activities {
 		activityAddress = "12345 2nd Ave";
 		activityDescription = "null";
 		type = "NotAType";
+		 commentList=new ArrayList<String>();
 	}
 	
 	
@@ -187,5 +188,8 @@ public class Activities {
 		overallRating.add(newOverall);
 	}
 	
+	public void addComment(String comment){
+		commentList.add(comment);
+	}
 
 }

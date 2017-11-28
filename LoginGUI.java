@@ -143,21 +143,21 @@ public class LoginGUI extends JFrame{
 		//Check that the user exists. We will open the next page
 		for(Person p : currDB.getUsers()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true;
+				found = true; dispose();
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}
 		}
 		for(Person p : currDB.getCreator()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true;
+				found = true; dispose();
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}
 		}
 		for(Person p : currDB.getAdmins()){
 			if(username.equals(p.getEmail()) && password.equals(p.getPassword())){
-				found = true;
+				found = true; dispose();
 				MainPage mainScreen = new MainPage();
 				mainScreen.MainPageGui(p, currDB);
 			}

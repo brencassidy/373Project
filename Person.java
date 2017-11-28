@@ -19,7 +19,12 @@ public class Person {
 		eMail = "johndoe@test.com";
 		password = "ThisIsV4lid";
 	}
-	
+	public void setPerson(String _name, String _eMail, String _password){
+		name=_name;
+		eMail=_eMail;
+		password=_password;
+		
+	}
 	/*
 	 * createUser:
 	 * 			User will click create user, should enter info, if user is not in 
@@ -94,14 +99,16 @@ public class Person {
 	}
 	
 	public void setPassword(String _password){
-		boolean checkValid = false;
-		while(checkValid == false){
+		password = _password;
+		//boolean checkValid = false;
+		//while(checkValid == false){
 			//TODO: Call the checkValidPassword
-			if(checkValid == true){
-				
-			}
+		//	if(checkValid == true){
+		//		return;
+		//	}
+		//	return;
 			//else request new password
-		}
+		//}
 	}
 	
 	public String getName(){
