@@ -6,15 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.places.Activities;
 import org.places.City;
@@ -164,9 +168,49 @@ public class MainPage extends JFrame {
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else{
-			Activities newAct = new Activities();
-			//Ask admin to enter the info
-			city.addActivity(newAct);
+			JTextField ActivName = new JTextField(50);
+			JTextField ContentCreator = new JTextField(50);
+			JTextField CityName = new JTextField(50);
+			JPanel addReviewPanel = new JPanel();
+			
+			addReviewPanel.setLayout(new BoxLayout(addReviewPanel, BoxLayout.Y_AXIS));
+
+			addReviewPanel.add(new JLabel("Enter the Activities Name:"));
+			addReviewPanel.add(ActivName);
+			addReviewPanel.add(new JLabel("Enter Content Creators Name:"));
+			addReviewPanel.add(ContentCreator);
+			addReviewPanel.add(new JLabel("Enter City Name:"));
+			addReviewPanel.add(CityName);
+			
+			 int result = JOptionPane.showConfirmDialog(null, addReviewPanel, 
+		               "Please Enter a Review", JOptionPane.OK_CANCEL_OPTION);
+		      if (result == JOptionPane.OK_OPTION) {
+		    	  Activities newAct = new Activities();
+		    	  newAct.setActivityName(ActivName.getText());
+		    	  for(Person p : DB.getCreator()){
+		    		  if(p.getName().equals(ContentCreator)){
+				    	  newAct.setContentOwner(p);
+		    		  }
+		    	  }
+		    	  for(City c: DB.getCities()){
+		    		  if(c.getCityName().equals(CityName.getText())) {
+		    			c.addActivities(newAct);
+		    			String fullString = DB.printActivities();
+		    			activityList = new JTextArea();
+		    			activityList.setBackground(Color.LIGHT_GRAY);
+		    			activityList.setLineWrap(true);
+		    			activityList.setWrapStyleWord(true);
+		    			activityList.setEditable(false);
+		    			activityList.setText("Users in the DataBase: " + fullString);
+		    			activityList.setBounds(50, 10, 500, 500);
+		    		    activityList.setFont(new Font("Monospaced", Font.BOLD, 16));
+		    		    dispose();
+		 		    	MainPage mp1 = new MainPage();
+					    mp1.MainPageGui(currUser, DB, activityList);
+		    		  }
+		    	  }
+		    	 
+		      }
 		}
 	}
 	
