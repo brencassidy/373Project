@@ -150,6 +150,26 @@ public class TestWebPageGui {
 		a7.setContentOwner(c4);
 		a8.setContentOwner(c4);
 		
+		a1.calcNewRating(3.0, 3.5, 3.5);
+        a2.calcNewRating(3.0, 3.5, 3.5);
+        a3.calcNewRating(3.0, 3.5, 3.5);
+        a4.calcNewRating(3.0, 3.5, 3.5);
+        a5.calcNewRating(3.0, 3.5, 3.5);
+        a6.calcNewRating(3.0, 3.5, 3.5);
+        a7.calcNewRating(3.0, 3.5, 3.5);
+        a8.calcNewRating(3.0, 3.5, 3.5);
+
+		a1.addComment("Nice place and comfortable");
+        a1.addComment("Slow but worth it");
+        a2.addComment("Close to the bus stop");
+        a3.addComment("Classy but old");
+        a4.addComment("The smell is comfy and the owner is friendly");
+        a5.addComment("Cheap place to hang out");
+        a6.addComment("Haunted place for you");
+        a7.addComment("If your girl can't decide where to go. Don't choose this palce");
+        a8.addComment("Chill place to be social");
+
+		
 		//Add all activities to the correct City
 		city1.setCityName("Tucson");
 		city1.addActivity(a1);

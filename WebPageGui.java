@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.awt.event.*;
 
-
 import javax.swing.*;
 
 import org.people.*;
@@ -46,7 +45,8 @@ public class WebPageGui extends JFrame {
 	public void buildGUI(){
 		JButton Guest = new JButton("Guest");
 		JButton Login = new JButton("Login");
-
+		JButton CreateUser = new JButton("Create User");
+		
 		//Set all attributes for the TextArea
 		JTextArea HomePageText = new JTextArea();
 		HomePageText.setForeground(Color.WHITE);
@@ -56,10 +56,10 @@ public class WebPageGui extends JFrame {
 				+ " to post comments and reviews to the activites.  If you would like to continue as a guest press guest. ");
 		HomePageText.setLineWrap(true);
 		HomePageText.setWrapStyleWord(true);
-		
-		Login.setBounds(270, 140, 89, 23);
-		Guest.setBounds(75, 140, 89, 23);
-		
+	
+		Login.setBounds(285, 140, 89, 23);
+		Guest.setBounds(50, 140, 89, 23);
+		CreateUser.setBounds(150, 140, 125, 23);
 	    //Swing button can;t add to menuListener.. Unsure why.
 	    Login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -73,10 +73,16 @@ public class WebPageGui extends JFrame {
 			}
 	    });
 	    
+	    CreateUser.addActionListener(new ActionListener(){
+	    	public void actionPerformed(ActionEvent e){
+	    		createUser();
+	    	}
+	    });
 	    
 		this.getContentPane().add(HomePageText);;
 	    this.getContentPane().add(Login);
 	    this.getContentPane().add(Guest);
+	    this.getContentPane().add(CreateUser);
 	}
 	
 	/*
@@ -119,7 +125,33 @@ public class WebPageGui extends JFrame {
 		dispose();
 		Person guest = new Person();
 		MainPage mainScreen = new MainPage();
-		mainScreen.MainPageGui(guest, currDB);
+		mainScreen.MainPageGui(guest, currDB, new JTextArea());
+	}
+	
+	private void createUser(){
+		dispose();
+		JTextField name = new JTextField(25);
+		JTextField eMail = new JTextField(25);
+		JTextField password = new JTextField(25);
+		
+		JPanel newUser = new JPanel();
+		newUser.setLayout(new BoxLayout(newUser, BoxLayout.Y_AXIS));
+		newUser.add(new JLabel("Enter your Name:"));
+		newUser.add(name);
+		newUser.add(new JLabel("Enter your Email:"));
+		newUser.add(eMail);
+		newUser.add(new JLabel("Enter your Password:"));
+		newUser.add(password);
+		
+		int result = JOptionPane.showConfirmDialog(null, newUser, 
+	               "Please Enter a Review", JOptionPane.OK_CANCEL_OPTION);
+	      if (result == JOptionPane.OK_OPTION) {
+	    	  //Verify the password is valid
+	         GenericUser newPerson = new GenericUser(name.getText(), eMail.getText(), password.getText());
+	         currDB.addUser(newPerson);
+	         MainPage mainScreen = new MainPage();
+	         mainScreen.MainPageGui(newPerson, currDB, new JTextArea());
+	      }
 	}
 	
 }

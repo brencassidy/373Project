@@ -160,6 +160,22 @@ public class Activities {
 		return this.type;
 	}
 	
+	public String printComments() {
+	        String AllComments="\n";
+	        Integer i = 1;
+	        for(String s : commentList ) {
+	            AllComments+= i + ") " + s+"\n";
+	            i+=1;
+	        }
+	        return AllComments;
+	        
+    }
+	
+	public void addAllRating(Double newFoodRating, Double newPriceRating, Double newOverall){
+    	this.calcNewRating( newOverall,  newFoodRating,  newPriceRating);
+
+    }
+
 	public ArrayList<Double> getOverallList()
 	{
 		return this.overallRating;

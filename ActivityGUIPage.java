@@ -4,11 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -18,6 +22,7 @@ import org.places.DataBase;
 
 import javax.swing.JTextArea;
 import javax.swing.JFormattedTextField;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -27,7 +32,7 @@ public class ActivityGUIPage extends JFrame{
 	private DataBase currDB;
 	
 	private JFrame frame;
-	private JTextField textField;
+	private JTextArea textField;
 	private JTextArea FoodRating;
 	private JTextArea ActivityText;
 	private JTextArea Description;
@@ -53,7 +58,7 @@ public class ActivityGUIPage extends JFrame{
 	}
 	
 	public void buildGUI(){
-		textField = new JTextField();
+		textField = new JTextArea();
 		FoodRating = new JTextArea();
 		ActivityText = new JTextArea();
 		Description = new JTextArea();
@@ -72,6 +77,10 @@ public class ActivityGUIPage extends JFrame{
 		
 		textField.setBounds(0, 192, 445, 192);
 		textField.setColumns(10);
+		textField.setText("Comments: " + currA.printComments());
+		textField.setLineWrap(true);
+		textField.setWrapStyleWord(true);
+		textField.setEditable(false);
 		
 		BackButton.setBackground(Color.LIGHT_GRAY);
 		BackButton.setBounds(0, 393, 150, 23);
@@ -125,13 +134,35 @@ public class ActivityGUIPage extends JFrame{
 	private void BackToActivities(){
 		dispose();
 		MainPage mainScreen = new MainPage();
-		mainScreen.MainPageGui(currUser, currDB);
+		mainScreen.MainPageGui(currUser, currDB, new JTextArea());
 	}
 	
 	private void addComment(){
-		String comment;
-		comment = JOptionPane.showInputDialog(null, "Enter the comment you would like to add: ");
+		JTextField comment = new JTextField(50);
+		JTextField foodRating = new JTextField(5);
+		JTextField overallRating = new JTextField(5);
+		JTextField priceRating = new JTextField(5);
 
-		currA.addComment(comment);
+		JPanel addReviewPanel = new JPanel();
+		addReviewPanel.setLayout(new BoxLayout(addReviewPanel, BoxLayout.Y_AXIS));
+
+		addReviewPanel.add(new JLabel("Enter a comment:"));
+		addReviewPanel.add(comment);
+		addReviewPanel.add(new JLabel("Food Rating:"));
+		addReviewPanel.add(foodRating);
+		addReviewPanel.add(new JLabel("Overall Rating:"));
+		addReviewPanel.add(overallRating);
+		addReviewPanel.add(new JLabel("Price Rating:"));
+		addReviewPanel.add(priceRating);
+		
+		 int result = JOptionPane.showConfirmDialog(null, addReviewPanel, 
+	               "Please Enter a Review", JOptionPane.OK_CANCEL_OPTION);
+	      if (result == JOptionPane.OK_OPTION) {
+	         currA.addComment(comment.getText());
+	         currA.addAllRating(Double.parseDouble(foodRating.getText()), Double.parseDouble(priceRating.getText()), Double.parseDouble(overallRating.getText()));
+	         dispose();
+	         ActivityGUIPage agp1 = new ActivityGUIPage();
+	         agp1.ActivityGUIPageOpen(currA, currUser, currDB);
+	      }
 	}
 }

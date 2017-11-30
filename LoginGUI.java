@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.people.Person;
@@ -25,6 +26,7 @@ public class LoginGUI extends JFrame{
 		private JButton buttonLogin;
 		private JButton buttonReset;
 		private JButton buttonForgotPassword;
+		private JButton buttonBack;
 		/*
 		 * Initialize:
 		 * 		-We must create a useable login screen with customizable buttons and 
@@ -51,7 +53,7 @@ public class LoginGUI extends JFrame{
 			JButton buttonLogin = new JButton("Login");
 			JButton buttonReset = new JButton("Reset");
 			JButton buttonForgotPassword = new JButton("Forgot Password?");
-	
+			JButton buttonBack = new JButton("Back");
 			
 			JSeparator separator = new JSeparator();
 			JSeparator separator1 = new JSeparator();
@@ -75,7 +77,8 @@ public class LoginGUI extends JFrame{
 			buttonLogin.setBounds(10, 203, 123, 47);
 			buttonReset.setBounds(261, 203, 113, 47);
 			buttonForgotPassword.setBounds(125, 168, 155, 30);
-	
+			buttonBack.setBounds(0, 0, 75, 30);
+			
 			separator.setBounds(25, 200, 300, 25);
 			separator1.setBounds(25, 75, 300, 25);
 			
@@ -90,7 +93,7 @@ public class LoginGUI extends JFrame{
 			frame.getContentPane().add(buttonLogin);
 			frame.getContentPane().add(buttonReset);
 			frame.getContentPane().add(buttonForgotPassword);
-	
+			frame.getContentPane().add(buttonBack);
 			
 			frame.getContentPane().add(separator);
 			frame.getContentPane().add(separator1);
@@ -115,23 +118,16 @@ public class LoginGUI extends JFrame{
 				}
 			});
 			
+			buttonBack.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e){
+					BackToMain();
+				}
+			});
+			
 			frame.setVisible(true);
 			//return null;
 		}
 		
-	private class MenuListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			JMenuItem source = (JMenuItem)(e.getSource());
-			if(source.equals(buttonLogin)){
-				LoginPage();
-			}
-			else if(source.equals(buttonReset)){
-				Reset();
-			}
-			
-		}
-	}
-	
 	private void LoginPage() {
 		String password = PasswordText.getText();
 		String username = UsernameText.getText();
@@ -143,7 +139,7 @@ public class LoginGUI extends JFrame{
 				dispose();
 				found = true; 
 				MainPage mainScreen = new MainPage();
-				mainScreen.MainPageGui(p, currDB);
+				mainScreen.MainPageGui(p, currDB, new JTextArea());
 			}
 		}
 		for(Person p : currDB.getCreator()){
@@ -151,7 +147,7 @@ public class LoginGUI extends JFrame{
 				dispose();
 				found = true; 
 				MainPage mainScreen = new MainPage();
-				mainScreen.MainPageGui(p, currDB);
+				mainScreen.MainPageGui(p, currDB,new JTextArea());
 			}
 		}
 		for(Person p : currDB.getAdmins()){
@@ -159,7 +155,7 @@ public class LoginGUI extends JFrame{
 				dispose();
 				found = true;
 				MainPage mainScreen = new MainPage();
-				mainScreen.MainPageGui(p, currDB);
+				mainScreen.MainPageGui(p, currDB,new JTextArea());
 			}
 		}
 		if(found == false){
@@ -189,5 +185,11 @@ public class LoginGUI extends JFrame{
 					"An email has been sent to you with a temporary password!",
 					"Valid Email",
 					JOptionPane.DEFAULT_OPTION);
+	}
+	
+	private void BackToMain(){
+		//this.setVisible(false);
+		this.dispose();
+		WebPageGui wpg = new WebPageGui(currDB);
 	}
 }

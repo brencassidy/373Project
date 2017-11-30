@@ -49,9 +49,11 @@ public class MainPage extends JFrame {
 	private JMenuItem logout;
 	private JComboBox selectCity;
 	private JTextArea txtActivity;
+	private JTextArea userList;
+	private JTextArea activityList;
 
 	
-	public void MainPageGui(Person user, DataBase DB2) {
+	public void MainPageGui(Person user, DataBase DB2, JTextArea messageToAdd) {
 		
 		this.setTitle("Welcome to the Activity Review Center");
 		
@@ -66,12 +68,13 @@ public class MainPage extends JFrame {
 		setSize(600,600);
 		setLayout(null); //So that components are placed by x,y,z
 				
-		buildGUI();
+		buildGUI(messageToAdd);
 		setVisible(true);
 	}
 	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void buildGUI(){
+	public void buildGUI(JTextArea message){
 		menuBar = new JMenuBar();
 		
 		adminMenu = new JMenu("Administrator");
@@ -107,6 +110,7 @@ public class MainPage extends JFrame {
 		menuBar.add(adminMenu);
 		menuBar.add(contentCreatorMenu);
 		setJMenuBar(menuBar);
+		this.getContentPane().add(message);
 	}
 	
 	/*
@@ -136,9 +140,6 @@ public class MainPage extends JFrame {
 			}
 			else if(source.equals(listAllActivities)){
 				listAllActivities();
-			}
-			else if(e.getSource() == selectCity){
-				cityFlyout();
 			}
 			else if(source.equals(logout)){
 				logout();
@@ -183,7 +184,20 @@ public class MainPage extends JFrame {
 		else{
 			//Call function to return the printed list
 			String fullString = DB.printUsers();
-			System.out.println(fullString);
+			userList = new JTextArea();
+			userList.setBackground(Color.LIGHT_GRAY);
+			userList.setLineWrap(true);
+			userList.setWrapStyleWord(true);
+			userList.setEditable(false);
+			userList.setText("Users in the DataBase: " + fullString);
+			userList.setBounds(50, 10, 500, 500);
+			userList.setFont(new Font("Monospaced", Font.BOLD, 16));
+			this.getContentPane().add(userList);
+			dispose();
+	        MainPage agp1 = new MainPage();
+	        agp1.MainPageGui(currUser, DB, userList);
+	        //agp1.ActivityGUIPageOpen(currA, currUser, currDB);
+			
 		}
 	}
 	
@@ -200,17 +214,21 @@ public class MainPage extends JFrame {
 		}
 		else{
 			String fullString = DB.printActivities();
-			System.out.println(fullString);
+			activityList = new JTextArea();
+			activityList.setBackground(Color.LIGHT_GRAY);
+			activityList.setLineWrap(true);
+			activityList.setWrapStyleWord(true);
+			activityList.setEditable(false);
+			activityList.setText("Users in the DataBase: " + fullString);
+			activityList.setBounds(50, 10, 500, 500);
+			activityList.setFont(new Font("Monospaced", Font.BOLD, 16));
+			//this.getContentPane().add(activityList);
+			dispose();
+	        MainPage mp1 = new MainPage();
+	        mp1.MainPageGui(currUser, DB, activityList);
 		}
 	}
 	
-	/*
-	 * cityFlyout: Once the user selects a city we will open the activities
-	 * 		for that city.
-	 */
-	private void cityFlyout(){
-		System.out.println("TESTING");
-	}
 	
 	/*
 	 * logout: If a user clicks this panel we will reopen the original panel to 
@@ -239,14 +257,17 @@ public class MainPage extends JFrame {
 		}
 	}
 	
+	/*
+	 * cityFlyout: Once the user selects a city we will open the activities
+	 * 		for that city.
+	 */
 	private void populatePageWithCity(String cityName){
 		//Find the city Obj
 		City c1 = DB.findCityObj(cityName);
-		System.out.println("PopulatePage");
 		if(c1 == null){
 			JOptionPane.showMessageDialog(null, 
-					"City Error", 
-					"No City info was found!",
+					"No Activities available!", 
+					"City Error!",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		/*If city exists we will list every possible activity for the City as a button.
@@ -266,7 +287,7 @@ public class MainPage extends JFrame {
 			//Loop through and post the activities
 			for(Activities a : c1.getActivities()){
 				JButton btnActivityName = new JButton(a.getActivityName());
-				btnActivityName.setBounds(160, 100+x, 250, 23);
+				btnActivityName.setBounds(150, 100+x, 250, 23);
 				btnActivityName.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
 						dispose();
