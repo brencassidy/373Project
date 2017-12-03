@@ -41,14 +41,12 @@ public class MainPage extends JFrame {
 	
 	private JMenuBar menuBar;
 	private JMenu adminMenu;
-	private JMenu contentCreatorMenu;
 	
 	//private ArrayList<City> cityList;  //Can go back in time if we change which element.
 	
 	private JMenuItem createPage;
 	private JMenuItem listAllUsers;
 	private JMenuItem listAllActivities;
-	private JMenuItem editPageContent;
 	
 	private JMenuItem logout;
 	private JComboBox selectCity;
@@ -82,13 +80,11 @@ public class MainPage extends JFrame {
 		menuBar = new JMenuBar();
 		
 		adminMenu = new JMenu("Administrator");
-		contentCreatorMenu = new JMenu("ContentCreator");
 		
 		logout = new JMenuItem("Logout");
 		createPage = new JMenuItem("Create New Page");
 		listAllUsers = new JMenuItem("Show All Users");
 		listAllActivities = new JMenuItem("Show All Activities");
-		editPageContent = new JMenuItem("Edit Page");
 		
 		//@SuppressWarnings("rawtypes")
 		JComboBox selectCity = new JComboBox();
@@ -102,17 +98,14 @@ public class MainPage extends JFrame {
 		createPage.addActionListener(new MenuListener1());
 		listAllUsers.addActionListener(new MenuListener1());
 		listAllActivities.addActionListener(new MenuListener1());
-		editPageContent.addActionListener(new MenuListener1());
 		logout.addActionListener(new MenuListener1());
 		adminMenu.add(createPage);
 		adminMenu.add(listAllUsers);
 		adminMenu.add(listAllActivities);
-		contentCreatorMenu.add(editPageContent);
 		
 		menuBar.add(selectCity);
 		menuBar.add(logout);
 		menuBar.add(adminMenu);
-		menuBar.add(contentCreatorMenu);
 		setJMenuBar(menuBar);
 		this.getContentPane().add(message);
 	}
@@ -147,9 +140,6 @@ public class MainPage extends JFrame {
 			}
 			else if(source.equals(logout)){
 				logout();
-			}
-			else if(source.equals(editPageContent)){
-				editPage();
 			}
 		}
 	}
@@ -282,23 +272,6 @@ public class MainPage extends JFrame {
 	private void logout(){
 		dispose();
 		WebPageGui wpg = new WebPageGui(DB);
-	}
-	
-	
-	/*
-	 * This page is only applicable for the Content Creator Class
-	 * 	all other users will recieve an error.
-	 */
-	private void editPage(){
-		if(currUser.getClass() != ContentCreator.class){
-			JOptionPane.showMessageDialog(null, 
-				"User Status Error", 
-				"Only Admins can access User Info!",
-				JOptionPane.ERROR_MESSAGE);
-		}
-		else{
-			
-		}
 	}
 	
 	/*

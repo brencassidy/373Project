@@ -10,12 +10,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import org.people.ContentCreator;
 import org.people.Person;
 import org.places.Activities;
 import org.places.DataBase;
@@ -39,6 +42,11 @@ public class ActivityGUIPage extends JFrame{
 	private JTextArea AddressText;
 	private JButton btnAddComment;
 	private JButton BackButton;
+	
+	private JMenuBar menuBar;
+	private JMenu contentCreatorMenu;
+	private JMenuItem editPageContent;
+
 	/**
 	 * Create the application.
 	 * @return 
@@ -49,7 +57,7 @@ public class ActivityGUIPage extends JFrame{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setSize(462, 455);
+		setSize(452, 478);
 		setLayout(null);
 		
 		buildGUI();
@@ -58,6 +66,17 @@ public class ActivityGUIPage extends JFrame{
 	}
 	
 	public void buildGUI(){
+		menuBar = new JMenuBar();
+		
+		contentCreatorMenu = new JMenu("ContentCreator");
+		
+		editPageContent = new JMenuItem("Edit Page");
+		editPageContent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				editPage();
+			}
+		});
+		
 		textField = new JTextArea();
 		FoodRating = new JTextArea();
 		ActivityText = new JTextArea();
@@ -127,7 +146,10 @@ public class ActivityGUIPage extends JFrame{
 		this.getContentPane().add(FoodRating);
 		this.getContentPane().add(BackButton);
 		this.getContentPane().add(btnAddComment);
-
+		
+		contentCreatorMenu.add(editPageContent);
+		menuBar.add(contentCreatorMenu);
+		setJMenuBar(menuBar);
 	}
 	
 	
@@ -164,5 +186,52 @@ public class ActivityGUIPage extends JFrame{
 	         ActivityGUIPage agp1 = new ActivityGUIPage();
 	         agp1.ActivityGUIPageOpen(currA, currUser, currDB);
 	      }
+	}
+	
+	/*
+	 * This page is only applicable for the Content Creator Class
+	 * 	all other users will recieve an error.
+	 */
+	private void editPage(){
+		if(currUser.getClass() != ContentCreator.class){
+			JOptionPane.showMessageDialog(null, 
+				"User Status Error", 
+				"Only Admins can access User Info!",
+				JOptionPane.ERROR_MESSAGE);
+		}
+		else if(!currA.getContentOwner().getName().equals(currUser.getName())){
+			JOptionPane.showMessageDialog(null, 
+					"Wrong activity selected", 
+					"You do not have access to this Activity!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			JTextField description = new JTextField(50);
+			JTextField address = new JTextField(5);
+
+			JPanel addReviewPanel = new JPanel();
+			addReviewPanel.setLayout(new BoxLayout(addReviewPanel, BoxLayout.Y_AXIS));
+
+			addReviewPanel.add(new JLabel("Enter new Description (leave blank to remain the same):"));
+			addReviewPanel.add(description);
+			addReviewPanel.add(new JLabel("Enter new Address (leave blank to remain the same):"));
+			addReviewPanel.add(address);
+			
+			int result = JOptionPane.showConfirmDialog(null, addReviewPanel, 
+		               "Please Enter a Review", JOptionPane.OK_CANCEL_OPTION);
+		    if (result == JOptionPane.OK_OPTION) {
+		         if(address.getText().length() > 1 && address.getText() != null ){
+		        	 currA.setActivityAddress(address.getText());
+		         }
+		         if(description.getText().length() > 1 && description.getText() != null){
+		        	currA.setActivityDescription(description.getText());
+		         }
+		         
+		         dispose();
+		         ActivityGUIPage agp1 = new ActivityGUIPage();
+		         agp1.ActivityGUIPageOpen(currA, currUser, currDB);
+		      
+		    }
+		}
 	}
 }

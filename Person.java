@@ -25,6 +25,12 @@ public class Person {
 		password=_password;
 		
 	}
+	public Person(String _name, String _eMail, String _password){
+		name=_name;
+		eMail=_eMail;
+		password=_password;
+		
+	}
 	/*
 	 * createUser:
 	 * 			User will click create user, should enter info, if user is not in 
@@ -66,22 +72,30 @@ public class Person {
 		}
 		
         else if (!(Character.isLowerCase(c))) {
-            for (int i = 1; i < testPassword.length(); i++) {
-                c = testPassword.charAt(i);
-                if (!Character.isLowerCase(c)) {  
-                    System.out.println("Invalid password - Must have a Lower Case character.");
-                    return false;
+            boolean test_ = false;
+        	for (int i = 1; i < testPassword.length(); i++) {
+                char l = testPassword.charAt(i);
+                if (!Character.isLowerCase(l)) {  
+                	test_ = false;
+                }
+                else{
+                	test_ = true;
                 }
             }
+            return test_;
         }
         else if (!(Character.isUpperCase(c))) {
-            for (int i = 0; i < testPassword.length(); i++) {       
-                c = testPassword.charAt(i);
-                if (!Character.isUpperCase(c)) {
-                    System.out.println("Invalid password - Must have an Upper Case character.");
-                    return false;
+            boolean test = false;
+        	for (int i = 0; i < testPassword.length(); i++) {       
+                char u = testPassword.charAt(i);
+                if (!Character.isUpperCase(u)) {
+                   test = false;
+                }
+                else{
+                	test = true;
                 }
             }
+            return test;
         }
 		return true;
 	}

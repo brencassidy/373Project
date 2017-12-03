@@ -78,27 +78,16 @@ public class WebPageGui extends JFrame {
 	    		createUser();
 	    	}
 	    });
-	    
-		this.getContentPane().add(HomePageText);;
+	   //To add Pictures we can do the following
+	   //ImageIcon image = new ImageIcon("C:/Users/Brendan Cassidy/Pictures/Brendan.jpg");
+	   //JLabel imageLabel = new JLabel(image);
+	   //imageLabel.setVisible(true);
+	   //imageLabel.setBounds(0, 0, 800, 800);
+	   // this.getContentPane().add(imageLabel);
+	    this.getContentPane().add(HomePageText);;
 	    this.getContentPane().add(Login);
 	    this.getContentPane().add(Guest);
 	    this.getContentPane().add(CreateUser);
-	}
-	
-	/*
-	 * 
-	 * 
-	 */
-	private class MenuListener implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			JMenuItem source = (JMenuItem)(e.getSource());
-			if(source.equals(Login)){
-				loginMenu();
-			}
-			if(source.equals(Guest)){
-				guestLogin();
-			}
-		}
 	}
 	
 	/*
@@ -133,6 +122,7 @@ public class WebPageGui extends JFrame {
 		JTextField name = new JTextField(25);
 		JTextField eMail = new JTextField(25);
 		JTextField password = new JTextField(25);
+		String _password = "false";
 		
 		JPanel newUser = new JPanel();
 		newUser.setLayout(new BoxLayout(newUser, BoxLayout.Y_AXIS));
@@ -147,10 +137,25 @@ public class WebPageGui extends JFrame {
 	               "Please Enter a Review", JOptionPane.OK_CANCEL_OPTION);
 	      if (result == JOptionPane.OK_OPTION) {
 	    	  //Verify the password is valid
-	         GenericUser newPerson = new GenericUser(name.getText(), eMail.getText(), password.getText());
-	         currDB.addUser(newPerson);
-	         MainPage mainScreen = new MainPage();
-	         mainScreen.MainPageGui(newPerson, currDB, new JTextArea());
+	         GenericUser newPerson = new GenericUser();
+	         if(newPerson.checkValidPassword(password.getText()) == false){
+		         while (newPerson.checkValidPassword(_password) == false) {
+		        	 JFrame frame = new JFrame("Invalid Password");
+		        	 _password =  JOptionPane.showInputDialog(frame, "Enter valid Password!");
+		         } 
+	         }
+        	 newPerson.setEmail(eMail.getText());
+        	 newPerson.setName(name.getText());
+        	 if(newPerson.checkValidPassword(password.getText()) == false){
+        		 newPerson.setPassword(_password);
+        	 }
+        	 else{
+        	 newPerson.setPassword(password.getText());
+        	 }
+        	 currDB.addUser(newPerson);
+        	 MainPage mainScreen = new MainPage();
+        	 mainScreen.MainPageGui(newPerson, currDB, new JTextArea());
+	        
 	      }
 	}
 	
